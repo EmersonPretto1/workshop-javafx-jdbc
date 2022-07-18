@@ -27,9 +27,8 @@ import model.entities.Department;
 import model.services.DepartmentService;
 
 public class DepartmentListController implements Initializable {
-	
+
 	private DepartmentService service = new DepartmentService();
-	
 
 	@FXML
 	private TableView<Department> tableViewDepartment;
@@ -42,15 +41,15 @@ public class DepartmentListController implements Initializable {
 
 	@FXML
 	private Button btNew;
-	
+
 	private ObservableList<Department> obsList;
 
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Department obj = new Department();
-		createDialogForm(obj,"/gui/DepartmentForm.fxml", parentStage);
-		
+		createDialogForm(obj, "/gui/DepartmentForm.fxml", parentStage);
+
 	}
 
 	@Override
@@ -61,16 +60,14 @@ public class DepartmentListController implements Initializable {
 	private void initializeNodes() {
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("Name"));
-		
-		Stage stage = (Stage)Main.getMainScene().getWindow();
+
+		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewDepartment.prefHeightProperty().bind(stage.heightProperty());
-		
-		
-		
+
 	}
-	
+
 	public void updateTableView() {
-	
+
 		if (service == null) {
 			throw new IllegalStateException("Service was null");
 		}
@@ -81,18 +78,19 @@ public class DepartmentListController implements Initializable {
 
 	public void setDepartmentService(DepartmentService departmentService) {
 		// TODO Auto-generated method stub
-		
-	}	
-	
-	private void createDialogForm(Department obj,String absoluteName,Stage parentStage) {
+
+	}
+
+	private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
-			
+
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj);
+			controller.setDepartmentService(new DepartmentService());
 			controller.updateFormData();
-			
+
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter Department data");
 			dialogStage.setScene(new Scene(pane));
@@ -100,9 +98,8 @@ public class DepartmentListController implements Initializable {
 			dialogStage.initOwner(parentStage);
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
-}	
+}
