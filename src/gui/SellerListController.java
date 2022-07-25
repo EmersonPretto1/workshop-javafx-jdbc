@@ -46,6 +46,9 @@ public class SellerListController implements Initializable, DataChangeListener {
 
 	@FXML
 	private TableColumn<Seller, String> tableColumnName;
+	
+	
+
 
 	@FXML
 	private TableColumn<Seller, String> tableColumnEmail;
